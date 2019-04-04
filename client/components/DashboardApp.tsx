@@ -7,6 +7,8 @@ import moment from 'moment';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
+import Report from './Report';
+
 require('antd/dist/antd.less');
 export default class DashboardApp extends React.Component {
   state = {
@@ -98,7 +100,7 @@ export default class DashboardApp extends React.Component {
               </Row>
             </Card>
             <Card>
-
+              <Report />
             </Card>
           </Content>
           <Footer style={{ textAlign: 'center' }}>ShopMessage ©2018</Footer>
