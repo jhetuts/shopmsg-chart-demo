@@ -1,6 +1,8 @@
 "use strict";
 import * as React from 'react';
-import { Layout, Menu, Breadcrumb, Icon, Card } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon, Card, DatePicker, Switch, Row, Col } from 'antd';
+
+import moment from 'moment';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -16,7 +18,16 @@ export default class DashboardApp extends React.Component {
     this.setState({ collapsed });
   }
 
+  onChange = (checked) => {
+    console.log(`switch to ${checked}`);
+  }
+  
   render() {
+
+    const { RangePicker } = DatePicker;
+
+    const dateFormat = 'YYYY/MM/DD';
+
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -56,13 +67,39 @@ export default class DashboardApp extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
+          <Header style={{ background: '#fff', padding: '0 16px' }} ><h2>Report</h2></Header>
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Reports</Breadcrumb.Item>
               <Breadcrumb.Item>Message Receipts & Optins</Breadcrumb.Item>
             </Breadcrumb>
-            <Card>Put your component here</Card>
+            <Card style={{ margin: '0 0 20px 0'}}>
+              <Row style={{padding: '10px 0' }}>
+                <Col span={2}>Date Range:</Col>
+                <Col span={22}>
+                  <RangePicker
+                    defaultValue={[moment('2018/11/01', dateFormat),
+                    moment('2018/11/08', dateFormat)]}
+                    format={dateFormat}
+                  />
+                </Col>
+              </Row>
+              <Row style={{padding: '10px 0' }}>
+                <Col span={2}>Show Options:</Col>
+                <Col span={22}>
+                  <Switch defaultChecked onChange={this.onChange} />
+                </Col>
+              </Row>
+              <Row style={{padding: '10px 0' }}>
+                <Col span={2}>Show Recipients:</Col>
+                <Col span={22}>
+                  <Switch defaultChecked onChange={this.onChange} />
+                </Col>
+              </Row>
+            </Card>
+            <Card>
+
+            </Card>
           </Content>
           <Footer style={{ textAlign: 'center' }}>ShopMessage ©2018</Footer>
         </Layout>
