@@ -1,36 +1,35 @@
 "use strict";
 import * as React from 'react';
 import { Layout, Menu, Breadcrumb, Icon, Card, DatePicker, Switch, Row, Col } from 'antd';
-
 import moment from 'moment';
+
+
+// Adding the Report Component
+import Report from './Report';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
-import Report from './Report';
-
 require('antd/dist/antd.less');
-export default class DashboardApp extends React.Component {
+
+class DashboardApp extends React.Component{
+
+  // Assigned additional states for recipients, optins, date-range
   state = {
     collapsed: false,
   };
 
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   }
 
-  onChange = (checked) => {
-    console.log(`switch to ${checked}`);
-  }
-  
   render() {
 
     const { RangePicker } = DatePicker;
-
     const dateFormat = 'YYYY/MM/DD';
 
     return (
+      
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible
@@ -73,35 +72,10 @@ export default class DashboardApp extends React.Component {
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Reports</Breadcrumb.Item>
-              <Breadcrumb.Item>Message Receipts & Optins</Breadcrumb.Item>
+              <Breadcrumb.Item>Message Receipts &amp; Optins</Breadcrumb.Item>
             </Breadcrumb>
-            <Card style={{ margin: '0 0 20px 0'}}>
-              <Row style={{padding: '10px 0' }}>
-                <Col span={2}>Date Range:</Col>
-                <Col span={22}>
-                  <RangePicker
-                    defaultValue={[moment('2018/11/01', dateFormat),
-                    moment('2018/11/08', dateFormat)]}
-                    format={dateFormat}
-                  />
-                </Col>
-              </Row>
-              <Row style={{padding: '10px 0' }}>
-                <Col span={2}>Show Options:</Col>
-                <Col span={22}>
-                  <Switch defaultChecked onChange={this.onChange} />
-                </Col>
-              </Row>
-              <Row style={{padding: '10px 0' }}>
-                <Col span={2}>Show Recipients:</Col>
-                <Col span={22}>
-                  <Switch defaultChecked onChange={this.onChange} />
-                </Col>
-              </Row>
-            </Card>
-            <Card>
-              <Report />
-            </Card>
+            {/* First block that contains Date Range, Switch Options */}
+            <Report />
           </Content>
           <Footer style={{ textAlign: 'center' }}>ShopMessage ©2018</Footer>
         </Layout>
@@ -109,3 +83,5 @@ export default class DashboardApp extends React.Component {
     );
   }
 }
+
+export default DashboardApp;

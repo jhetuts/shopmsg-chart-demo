@@ -1,0 +1,3 @@
+export const GET_OPTINS = 'GET_OPTINS';
+export const GET_RECIPIENTS = 'GET_RECIPIENTS';
+export const CLEAR_REPORTS = 'CLEAR_REPORTS';
