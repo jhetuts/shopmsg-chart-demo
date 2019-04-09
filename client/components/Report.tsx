@@ -16,6 +16,7 @@ require('./Report.css');
 interface reportObject {
   recipients: [{date: '', count: number }];
   optins: [{date: '', count: number }];
+  loading: boolean;
 }
 
 export interface Props{
@@ -23,17 +24,14 @@ export interface Props{
   getReport: (x,y) => void;
 }
 
-
-export interface MyInterface extends Array<Props> { }
-
 class Report extends React.Component<Props>{
 
   state = {
     dateFromPicked: '2018/11/01',
     dateToPicked: '2018/11/08',
     fields: ["Optins", "Recipients"],
-    optins: [],
-    recipients: [],
+    optins: this.props.report.optins,
+    recipients: this.props.report.optins,
     reportData: []
   }
   
@@ -41,7 +39,7 @@ class Report extends React.Component<Props>{
     if(checked) {
       this.setState({fields: ["Optins", "Recipients"]});
     } else {
-      this.setState({fields: ["Optins", ""]});
+      this.setState({fields: ["Optins"]});
     }
   }
 
@@ -49,13 +47,13 @@ class Report extends React.Component<Props>{
     if(checked) {
       this.setState({fields: ["Optins", "Recipients"]});
     } else {
-      this.setState({fields: ["", "Recipients"]});
+      this.setState({fields: ["Recipients"]});
     }
   }
 
   datePicked = (old, pickedDate) =>{
 
-    this.props.getReport(this.state.dateFromPicked, this.state.dateToPicked);
+    this.props.getReport(pickedDate[0].toString(), pickedDate[1].toString());
 
     this.setState({
       dateFromPicked: pickedDate[0].toString(), 
@@ -63,113 +61,41 @@ class Report extends React.Component<Props>{
       optins: this.props.report.optins,
       recipients: this.props.report.recipients
     });
-
-    this.loadDataReport(this.state.optins, this.state.recipients);
   }
 
   componentDidMount(){
     this.props.getReport(this.state.dateFromPicked, this.state.dateToPicked);
-
-    this.setState({
-      optins: this.props.report.optins,
-      recipients: this.props.report.recipients
-    });
-    
-    this.loadDataReport(this.state.optins, this.state.recipients);
-  }
-
-  loadDataReport(optins, recipients){
-
-    let reportData = [];
-    
-    if(optins.length !== undefined && recipients.length !== undefined){
-      optins.map(optin => {
-        recipients.map(recipient => {
-          if(optin.date === recipient.date){
-            reportData.push({
-              date: optin.date,
-              Optins: optin.count,
-              Recipients: recipient.count
-            })
-          }
-        }) 
-      });
-
-      this.setState({
-        reportData: reportData
-      });
-    }
   }
   
   render() {
+    let reportData = new Array<Object>();
+    let chartLoad;
 
-    console.log(this.state.reportData);
-
-    const data = [
-      {
-        date: "Jan/11",
-        Optins: 7.0,
-        Recipients: 3.9
-      },
-      {
-        date: "Feb",
-        Optins: 6.9,
-        Recipients: 4.2
-      },
-      {
-        date: "Mar",
-        Optins: 9.5,
-        Recipients: 5.7
-      },
-      {
-        date: "Apr",
-        Optins: 14.5,
-        Recipients: 8.5
-      },
-      {
-        date: "May",
-        Optins: 18.4,
-        Recipients: 11.9
-      },
-      {
-        date: "Jun",
-        Optins: 21.5,
-        Recipients: 15.2
-      },
-      {
-        date: "Jul",
-        Optins: 25.2,
-        Recipients: 17.0
-      },
-      {
-        date: "Aug",
-        Optins: 26.5,
-        Recipients: 16.6
-      },
-      {
-        date: "Sep",
-        Optins: 23.3,
-        Recipients: 14.2
-      },
-      {
-        date: "Oct",
-        Optins: 18.3,
-        Recipients: 10.3
-      },
-      {
-        date: "Nov",
-        Optins: 13.9,
-        Recipients: 6.6
-      },
-      {
-        date: "Dec",
-        Optins: 9.6,
-        Recipients: 4.8
+    if(!this.props.report.loading){
+      if(this.props.report.optins.length !== undefined && this.props.report.recipients.length !== undefined){
+        this.props.report.optins.map(optin => {
+          this.props.report.recipients.map(recipient => {
+            if(optin.date === recipient.date){
+              reportData.push({
+                date: optin.date,
+                Optins: optin.count,
+                Recipients: recipient.count
+              })
+            }
+          }) 
+        });
       }
-    ];
-    
+      if(reportData.length <= 2){
+        chartLoad = (<div>Input date is atleast above 3 days.</div>);
+      } else {
+        chartLoad = null;
+      }
+    } else {
+      chartLoad = (<div>Loading...</div>);
+    }
+
     const ds = new DataSet();
-    const dv = ds.createView().source(this.state.reportData);
+    const dv = ds.createView().source(reportData);
 
     dv.transform({
       type: "fold",
@@ -191,8 +117,8 @@ class Report extends React.Component<Props>{
       <div>
         <Card style={{ margin: '0 0 20px 0'}}>
           <Row style={{padding: '10px 0' }}>
-            <Col span={2}>Date Range:</Col>
-            <Col span={22}>
+            <Col span={4} className="dp-4">Date Range:</Col>
+            <Col span={20}>
               <RangePicker
                 defaultValue={[
                   moment(this.state.dateFromPicked, dateFormat),
@@ -204,21 +130,23 @@ class Report extends React.Component<Props>{
             </Col>
           </Row>
           <Row style={{padding: '10px 0' }}>
-            <Col span={2}>Show Options:</Col>
-            <Col span={22}>
+            <Col span={4} className="dp-4">Show Options:</Col>
+            <Col span={20}>
               <Switch defaultChecked className="optins" onChange={this.onOptinsChange} />
             </Col>
           </Row>
           <Row style={{padding: '10px 0' }}>
-            <Col span={2}>Show Recipients:</Col>
-            <Col span={22}>
+            <Col span={4} className="dp-4">Show Recipients:</Col>
+            <Col span={20}>
               <Switch defaultChecked className="recipients" onChange={this.onRecipientsChange} />
             </Col>
           </Row>
         </Card>
         <Card>
-          <Chart width={100} height={500} data={dv} scale={cols} forceFit>
-              <Legend />
+          {chartLoad ? chartLoad : 
+          (
+            <Chart width={100} height={500} data={dv} scale={cols} forceFit>
+              <Legend position="top-left"/>
               <Axis name="date" />
               <Axis
                   name="optins"
@@ -246,7 +174,8 @@ class Report extends React.Component<Props>{
                       lineWidth: 1
                   }}
               />
-          </Chart>
+            </Chart>
+          )}
         </Card>
       </div>
     );
