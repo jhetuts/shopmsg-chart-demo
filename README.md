@@ -7,6 +7,11 @@ Finished features in the given exercise:
 - User can hide or reveal the "Recipients" dataset from the chart.
 
 ![screenshot](./public/screenshot.png)
+```
+
+The chart I've made:
+```
+![screenshot](./public/chart.png)
 
 Instructions
 ------------
@@ -31,6 +36,23 @@ Deliverables
 ------------
 **Code** - Clone this repository as a starting point: https://github.com/jhetuts/shopmsg-chart-demo.git
 
-**Deployment** - Deployed at 
+**Deployment** - Deployed at https://shop-msg-chart-demo.herokuapp.com/
 
-**Screencast** - Our team really values communication! Please make a screencast where you show us the functionality you implemented. This can be quick (no more than 5 minutes) and casual. If you don't have a tool you currently use to make screencasts, we recommend you use [Loom](https://www.useloom.com/) to make the screencast. It's free and easy to use.
+**Screencast** - 
+Notes
+------------
+- I added Report.tsx component for to seperate state actions.
+- I've built Redux for state management when changing the date-range.
+  - Under would be actions, reducers, and the store itself.
+- Not really familiar with how **react-tsx** work so I've study only the basic to create an app out of it.
+- Not able to solve the date-range mistake which is less than 1 (date) on the selected date-range.
+- Not able to follow the said design based on the given screenshot of charts.
+- I used **Bizcharts** as the chart.
+
+Additional Features:
+------------
+- Legend is hoverable, thanks to the Bizcharts features.
+- Legend can also be toggle
+- Line are also hoverable for both Optins/Opt-ins and Recipients. You can also hover a line alone.
+- Smooth transition of lines
+- Since picking a date has a mistake, I limit the input to 3 and above so that system can avoid displaying odd chart.

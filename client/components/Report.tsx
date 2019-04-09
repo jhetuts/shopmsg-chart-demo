@@ -32,22 +32,24 @@ class Report extends React.Component<Props>{
     fields: ["Optins", "Recipients"],
     optins: this.props.report.optins,
     recipients: this.props.report.optins,
+    optinCheck: true,
+    recipientCheck: true,
     reportData: []
   }
   
   onRecipientsChange = checked => {
     if(checked) {
-      this.setState({fields: ["Optins", "Recipients"]});
+      this.setState({ recipientCheck: true, fields: ["Optins", "Recipients"]});
     } else {
-      this.setState({fields: ["Optins"]});
+      this.setState({optinCheck: true, recipientCheck: false, fields: ["Optins"]});
     }
   }
 
   onOptinsChange = checked => {
     if(checked) {
-      this.setState({fields: ["Optins", "Recipients"]});
+      this.setState({optinCheck: true, fields: ["Optins", "Recipients"]});
     } else {
-      this.setState({fields: ["Recipients"]});
+      this.setState({optinCheck: false, recipientCheck: true, fields: ["Recipients"]});
     }
   }
 
@@ -132,13 +134,13 @@ class Report extends React.Component<Props>{
           <Row style={{padding: '10px 0' }}>
             <Col span={4} className="dp-4">Show Options:</Col>
             <Col span={20}>
-              <Switch defaultChecked className="optins" onChange={this.onOptinsChange} />
+              <Switch checked={this.state.optinCheck} className="optins" onChange={this.onOptinsChange} />
             </Col>
           </Row>
           <Row style={{padding: '10px 0' }}>
             <Col span={4} className="dp-4">Show Recipients:</Col>
             <Col span={20}>
-              <Switch defaultChecked className="recipients" onChange={this.onRecipientsChange} />
+              <Switch checked={this.state.recipientCheck} className="recipients" onChange={this.onRecipientsChange} />
             </Col>
           </Row>
         </Card>
