@@ -38,8 +38,10 @@ Deliverables
 
 **Deployment** - Deployed at https://shop-msg-chart-demo.herokuapp.com/
 
-**Screencast** - 
-Notes
+**Screencast** - https://www.loom.com/share/d004346efdb14ab6bafd2459cf07af0e
+
+
+Notes:
 ------------
 - I added Report.tsx component for to seperate state actions.
 - I've built Redux for state management when changing the date-range.
@@ -55,4 +57,5 @@ Additional Features:
 - Legend can also be toggle
 - Line are also hoverable for both Optins/Opt-ins and Recipients. You can also hover a line alone.
 - Smooth transition of lines
-- Since picking a date has a mistake, I limit the input to 3 and above so that system can avoid displaying odd chart.
+- Since picking a date has a mistake, I limit the input to 3 so that system can avoid displaying odd chart.
+- Switching lines can only be one at a time.
