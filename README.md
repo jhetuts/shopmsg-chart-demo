@@ -31,7 +31,6 @@ To start the project run:
 $> npm start
 ```
 
-
 Deliverables
 ------------
 **Code** - Clone this repository as a starting point: https://github.com/jhetuts/shopmsg-chart-demo.git
@@ -40,6 +39,7 @@ Deliverables
 
 **Screencast** - https://www.loom.com/share/d004346efdb14ab6bafd2459cf07af0e
 
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/d004346efdb14ab6bafd2459cf07af0e" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 Notes:
 ------------
